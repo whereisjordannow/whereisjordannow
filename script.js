@@ -22,9 +22,11 @@ fetch(
     .then((res) => res.json())
     .then((data) => {
         prevLocs = data;
-        data.forEach((row) => {
+        data.forEach((row, key, arr) => {
             waypoints.push(L.latLng(row['Lat'],row['Long']));
-            L.marker([row['Lat'],row['Long']],{icon: bedIcon}).addTo(map);
+            if (!Object.is(arr.length - 1, key)) {
+                L.marker([row['Lat'],row['Long']],{icon: bedIcon}).addTo(map);
+            }
         });
         console.log(waypoints);
         control = L.Routing.control({
